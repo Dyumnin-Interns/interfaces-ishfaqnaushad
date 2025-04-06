@@ -35,8 +35,7 @@ dut dut(
 	.read_address(read_address),
 	.read_en(read_en),
 	.read_data(read_data),
-	.read_rdy(read_rdy),
-	.read_data(read_data)
+	.read_rdy(read_rdy)
 );
 	initial begin
 		$dumpfile("waves.vcd");
