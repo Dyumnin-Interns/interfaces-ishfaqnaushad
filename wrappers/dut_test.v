@@ -17,17 +17,14 @@ module dut_test(CLK,
   input  [2 : 0] write_address;
   input  write_data;
   input  write_en;
-  output write_rdy;
+  output wire write_rdy;
 
   // actionvalue method read
   input  [2 : 0] read_address;
   input  read_en;
-  output read_data;
-  output read_rdy;
-
-  // signals for module outputs
-  reg read_data;
-  wire read_rdy, write_rdy;
+  output reg read_data;
+  output wire read_rdy;
+	
 dut dut(
 	.CLK(CLK),
 	.RST_N(RST_N),
