@@ -10,4 +10,41 @@ module dut(CLK,
 	   read_en,
 	   read_data,
 	   read_rdy);
-  dut test(
+  input  CLK;
+  input  RST_N;
+
+  // action method write
+  input  [2 : 0] write_address;
+  input  write_data;
+  input  write_en;
+  output write_rdy;
+
+  // actionvalue method read
+  input  [2 : 0] read_address;
+  input  read_en;
+  output read_data;
+  output read_rdy;
+
+  // signals for module outputs
+  reg read_data;
+  wire read_rdy, write_rdy;
+dut test(
+	.CLK(CLK),
+	.RST_N(RST_N),
+	.write_address(write_address),
+	.write_data(write_data),
+	.write_en(write_en),
+	.write_rdy(write_rdy),
+	.read_address(read_address)
+	.read_en(read_en),
+	.read_data(read_data),
+	.read_rdy(read_rdy),
+	.read_data(read_data)
+)
+	initial begin
+		$dumpfile("waves.vcd");
+		$dumpvars;
+	end
+endmodule
+
+
