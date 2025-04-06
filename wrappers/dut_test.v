@@ -35,7 +35,7 @@ dut dut(
 	.write_data(write_data),
 	.write_en(write_en),
 	.write_rdy(write_rdy),
-	.read_address(read_address)
+	.read_address(read_address),
 	.read_en(read_en),
 	.read_data(read_data),
 	.read_rdy(read_rdy),
