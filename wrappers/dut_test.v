@@ -40,7 +40,7 @@ dut dut(
 	.read_data(read_data),
 	.read_rdy(read_rdy),
 	.read_data(read_data)
-)
+);
 	initial begin
 		$dumpfile("waves.vcd");
 		$dumpvars;
