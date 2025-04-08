@@ -20,21 +20,21 @@ async def dut_test(dut):
         await RisingEdge(dut.CLK)
         await NextTimeStep()
         dut.read_en.value=0
-        dut.write_address.value=3
+        dut.write_address.value=4
         dut.write_data.value=a[i]
         dut.write_en.value=1
         await RisingEdge(dut.CLK)
         await NextTimeStep()
         dut.write_en.value=0
         await NextTimeStep()
-        dut.write_address.value=4
+        dut.write_address.value=5
         dut.write_data.value=b[i]
         dut.write_en.value=1
         await RisingEdge(dut.CLK)
         await NextTimeStep()
         dut.write_en.value=0
         await NextTimeStep()
-        dut.read_address.value=5
+        dut.read_address.value=3
         dut.read_en.value=1
         await ReadOnly()
         assert dut.read_data.value==expected_value[i], "Test Failed"
