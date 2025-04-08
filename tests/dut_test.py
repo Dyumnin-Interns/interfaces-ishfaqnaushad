@@ -2,14 +2,57 @@ import cocotb
 from cocotb.triggers import Timer, RisingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 
+def sb_fn(actual_value):
+    assert actual_value==expected_value.pop(0), f"TEST FAILED"
 
 @cocotb.test()
 async def dut_test(dut):
     a=(0,0,1,1)
     b=(0,1,0,1)
-    y=(0,1,1,1)
+    expected_value=[0,1,1,1]
+    awdrv=WriteDriver(self,dut,'a',dut.CLK)
+    bwdrv=WriteDriver(self,dut,'b',dut.CLK)
+    ReadDriver(self,dut,'y',dut.CLK,sb_fn)
+    
     for i in range(4):
-        dut.a$whas.value=a[i]
-        dut.b$whas.value=b[i]
-        assert dut.y$whas.value==y[i], "TEST FAILED"
+        awdrv.append(a[i])
+        bwdrv.append(b[i])
+        while len(expected_value)>0:
+            await Timer(2,'ns')
+
+class WriteDriver(BusDriver):
+    _signals=['rdy','en','data']
+    def __init__(self, dut, name, clk):
+        BusDriver.__init__(self, dut, name, clk)
+        self.bus.en.value=0
+        slef.clk=clk
+
+    async def _driver_send(self, value, sync=True):
+        if self.bus.rdy.value!=1:
+            await RisingEdge(self.bus.rdy)
+        self.bus.en.value=1
+        self.bus.data.value=value
+        await ReadOnly()
+        await RisingEdge(self.clk)
+        self.bus.en.value=0
+        await NextTimeStep()
+ 
+class ReadDriver(BusDriver):
+    _signals=['rdy','en','data']
+    def __init__(self, dut, name, clk, sb_callback):
+        BusDriver.__init__(self, dut, name, clk)
+        self.bus.en.value=0
+        self.clk=clk
+        self.callback=sb_callback
+
+    async def _driver_send(self, value, sync=True):
+        while True:
+            if self.bus.rdy.value!=1:
+                await RisingEdge(self.bus.rdy)
+            self.bus.en.value=1
+            await ReadOnly()
+            self.callback(self.bus.data.value)
+            await RisingEdge(self.clk)
+            self.bus.en.value=0
+            await NextTimeStep()       
     
