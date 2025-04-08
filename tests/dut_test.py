@@ -10,9 +10,9 @@ async def dut_test(dut):
     a=(0,0,1,1)
     b=(0,1,0,1)
     expected_value=[0,1,1,1]
-    awdrv=WriteDriver(self,dut,'a',dut.CLK)
-    bwdrv=WriteDriver(self,dut,'b',dut.CLK)
-    ReadDriver(self,dut,'y',dut.CLK,sb_fn)
+    awdrv=WriteDriver(dut,'a',dut.CLK)
+    bwdrv=WriteDriver(dut,'b',dut.CLK)
+    ReadDriver(dut,'y',dut.CLK,sb_fn)
     
     for i in range(4):
         awdrv.append(a[i])
