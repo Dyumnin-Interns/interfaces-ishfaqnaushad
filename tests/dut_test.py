@@ -33,7 +33,7 @@ class WriteDriver(BusDriver):
             await RisingEdge(self.bus.rdy)
         self.bus.en.value=1
         self.bus.data.value=value
-        await Timer(1,.'ns')
+        await Timer(1,'ns')
         if self.name=='a':
             self.bus.address.value[3]=self.bus.data.value
         else:
