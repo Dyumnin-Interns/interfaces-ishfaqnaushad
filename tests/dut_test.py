@@ -25,7 +25,7 @@ async def dut_test(dut):
         dut.write_en.value=1
         await RisingEdge(dut.CLK)
         await NextTimeStep()
-        dut.writ_en.value=0
+        dut.write_en.value=0
         await NextTimeStep()
         dut.write_address.value=4
         dut.write_data.value=b[i]
