@@ -15,8 +15,17 @@ async def dut_test(dut):
     
     
     for i in range(4):
-        dut.write_address.value[0b011]=a[i]
-        dut.write_address.value[0b100]=b[i]
+        dut.write_address.value=3
+        dut.write_data.value=a[i]
+        dut.write_en.value=1
+        await RisingEdge(dut.CLK)
+        await NextTimeStep()
+        dut.write_address.value=4
+        dut.write_data.value=b[i]
+        dut.write_en.value=1
+        await RisingEdge(dut.CLK)
+        await NextTimeStep()
+        dut.write_address.value=5
         await ReadOnly()
-        assert dut.read_address.value[0b101]==expected_value[i], "Test Failed"
+        assert dut.read_data.value==expected_value[i], "Test Failed"
 
