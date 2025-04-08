@@ -3,10 +3,12 @@ from cocotb.triggers import Timer, RisingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 
 def sb_fn(actual_value):
+    global expected_value
     assert actual_value==expected_value.pop(0), f"TEST FAILED"
 
 @cocotb.test()
 async def dut_test(dut):
+    global expected_value
     a=(0,0,1,1)
     b=(0,1,0,1)
     expected_value=[0,1,1,1]
@@ -24,7 +26,7 @@ class WriteDriver(BusDriver):
     _signals=['address','rdy','en','data']
     def __init__(self, dut, name, clk):
         BusDriver.__init__(self, dut, name, clk)
-        self.bus.en.value=0
+        self.bus.en=0
         self.clk=clk
         self.name=name
 
