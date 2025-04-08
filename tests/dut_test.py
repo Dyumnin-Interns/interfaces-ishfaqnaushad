@@ -9,7 +9,7 @@ async def dut_test(dut):
     b=(0,1,0,1)
     y=(0,1,1,1)
     for i in range(4):
-        dut.a.value=a[i]
-        dut.b.value=b[i]
-        assert dut.y.value==y[i], "TEST FAILED"
+        dut.a$whas.value=a[i]
+        dut.b$whas.value=b[i]
+        assert dut.y$whas.value==y[i], "TEST FAILED"
     
