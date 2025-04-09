@@ -7,7 +7,7 @@ def sb_fn(actual_value):
     global i
     global expected_value
     actual=actual_value.integer
-    assert actual_value==expected_value[i], f"TEST FAILED, expected={expected_value[i]},actual={actual}"
+    assert actual_value==expected_value[i], f"TEST FAILED, expected{i}={expected_value[i]},actual={actual}"
     i+=1
 
 @cocotb.test()
@@ -23,8 +23,8 @@ async def dut_test(dut):
     await RisingEdge(dut.CLK)
     dut.RST_N.value=1
     await NextTimeStep()
-    adrv=WriteDriver(dut,'write',dut.CLK, 4)
-    bdrv=WriteDriver(dut,'write',dut.CLK, 5)
+    adrv=WriteDriver(dut,'write',dut.CLK, 5)
+    bdrv=WriteDriver(dut,'write',dut.CLK, 4)
     ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
 
     for i in range(4):
