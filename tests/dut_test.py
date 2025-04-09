@@ -67,7 +67,6 @@ class ReadDriver(BusDriver):
         while True:
             if self.bus.rdy.value!=1:
                 await RisingEdge(self.bus.rdy)
-            self.bus.address.value=address
             self.bus.en.value=1
             await ReadOnly()
             await NextTimeStep()
