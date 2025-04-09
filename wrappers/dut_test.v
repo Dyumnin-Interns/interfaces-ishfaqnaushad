@@ -25,7 +25,7 @@ module dut_test(CLK,
   output reg read_data;
   output wire read_rdy;
 	
-dut dut(
+dut dut1(
 	.CLK(CLK),
 	.RST_N(RST_N),
 	.write_address(write_address),
