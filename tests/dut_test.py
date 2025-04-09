@@ -5,7 +5,9 @@ from cocotb_bus.drivers import BusDriver
 def sb_fn(actual_value):
     global expected_value
     actual=actual_value.integer
-    assert actual_value==expected_value.pop(0), f"TEST FAILED, expected={expected_value[0]},actual={actual}"
+    i=0
+    assert actual_value==expected_value[i], f"TEST FAILED, expected={expected_value[i]},actual={actual}"
+    i++
 
 @cocotb.test()
 async def dut_test(dut):
