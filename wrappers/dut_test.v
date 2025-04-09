@@ -42,7 +42,7 @@ dut dut(
 		$dumpvars;
 		CLK=0;
 		forever begin
-			#5;CLK=~CLK;
+			#5 CLK=~CLK;
 		end
 	end
 endmodule
