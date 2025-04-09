@@ -29,7 +29,6 @@ async def dut_test(dut):
         adrv.append(a[i])
         bdrv=WriteDriver(dut,'write',dut.CLK, 5)
         bdrv.append(b[i])
-        await ReadOnly()
         ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
         while len(expected_value)>0:
             await Timer(2,'ns')
