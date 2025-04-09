@@ -64,6 +64,7 @@ class ReadDriver(BusDriver):
                 await RisingEdge(self.bus.rdy)
             self.bus.en.value=1
             await ReadOnly()
+            await NextTimeStep()
             self.callback(self.bus.data.value)
             await RisingEdge(self.clk)
             await NextTimeStep()
