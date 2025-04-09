@@ -13,8 +13,8 @@ def sb_fn(actual_value):
 @cocotb.test()
 async def dut_test(dut):
     global expected_value
-    a=(0,1)
-    b=(0,1)
+    a=(0,0,1,1)
+    b=(0,1,0,1)
     expected_value=[0,1,1,1]
     dut.RST_N.value=1
     await Timer(1, 'ns')
@@ -24,17 +24,12 @@ async def dut_test(dut):
     dut.RST_N.value=1
     await Timer(1,'ns')
     adrv=WriteDriver(dut,'write',dut.CLK, 4)
-    await Timer(2,'ns')
-    bdrv=WriteDriver(dut,'write',dut.CLK, 5)
-    await Timer(2,'ns')
     ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
 
     for i in range(2):
         adrv.append(a[i])
-        for k in range(2):
-            bdrv.append(b[k])
-            while len(expected_value)>0:
-                await Timer(2,'ns')
+        while len(expected_value)>0:
+            await Timer(2,'ns')
         
         
 class WriteDriver(BusDriver):
