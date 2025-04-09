@@ -47,9 +47,9 @@ class WriteDriver(BusDriver):
             await RisingEdge(self.bus.rdy)
         self.bus.en.value=1
         self.bus.data.value=value
-        await ReadOnly()
+        await Timer(1,'ns')
         self.bus.en.value=0
-        await NextTimeStep()
+        await Timer(1,'ns')
         
 class ReadDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
