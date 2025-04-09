@@ -7,7 +7,7 @@ def sb_fn(actual_value):
     global j
     global expected_value
     actual=actual_value.integer
-    assert actual_value==expected_value[i], f"TEST FAILED, expected{j}={expected_value[j]},actual={actual}"
+    assert actual_value==expected_value[j], f"TEST FAILED, expected{j}={expected_value[j]},actual={actual}"
     j+=1
 
 @cocotb.test()
