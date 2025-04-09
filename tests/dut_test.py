@@ -27,6 +27,7 @@ async def dut_test(dut):
     for i in range(4):
         adrv.append(a[i])
         await Timer(2,'ns')
+    await Timer(10.'ns')
             
     
         
