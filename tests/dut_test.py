@@ -37,8 +37,8 @@ async def dut_test(dut):
         
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
-    def __init__(self, dut, name, clk):
-        BusDriver.__init__(self, dut, name, clk, address)
+    def __init__(self, dut, name, clk, address):
+        BusDriver.__init__(self, dut, name, clk)
         self.bus.en.value=0
         self.clk=clk
         self.bus.address.value=address
