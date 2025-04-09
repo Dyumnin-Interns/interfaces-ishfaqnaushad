@@ -2,19 +2,19 @@ import cocotb
 from cocotb.triggers import Timer, RisingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 
-i=0
+j=0
 def sb_fn(actual_value):
-    global i
+    global j
     global expected_value
     actual=actual_value.integer
     assert actual_value==expected_value[i], f"TEST FAILED, expected{i}={expected_value[i]},actual={actual}"
-    i+=1
+    j+=1
 
 @cocotb.test()
 async def dut_test(dut):
     global expected_value
-    a=(0,0,1,1)
-    b=(0,1,0,1)
+    a=(0,1)
+    b=(0,1)
     expected_value=[0,1,1,1]
     dut.RST_N.value=1
     await Timer(1, 'ns')
@@ -27,11 +27,12 @@ async def dut_test(dut):
     bdrv=WriteDriver(dut,'write',dut.CLK, 5)
     ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
 
-    for i in range(4):
+    for i in range(2):
         adrv.append(a[i])
-        bdrv.append(b[i])
-        while len(expected_value)>0:
-            await Timer(2,'ns')
+        for k in range(2):
+            bdrv.append(b[k])
+            while len(expected_value)>0:
+                await Timer(2,'ns')
         
         
 class WriteDriver(BusDriver):
