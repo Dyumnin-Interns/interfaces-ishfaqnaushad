@@ -48,7 +48,6 @@ class WriteDriver(BusDriver):
         self.bus.en.value=1
         self.bus.data.value=value
         await ReadOnly()
-        await RisingEdge(self.clk)
         self.bus.en.value=0
         await NextTimeStep()
         
