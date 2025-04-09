@@ -23,8 +23,8 @@ async def dut_test(dut):
     await RisingEdge(dut.CLK)
     dut.RST_N.value=1
     await NextTimeStep()
-    adrv=WriteDriver(dut,'write',dut.CLK)
-    bdrv=WriteDriver(dut,'write',dut.CLK)
+    adrv=WriteDriver(dut,'write',dut.CLK,4)
+    bdrv=WriteDriver(dut,'write',dut.CLK,5)
     ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
 
     for i in range(2):
@@ -38,18 +38,19 @@ async def dut_test(dut):
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
     def __init__(self, dut, name, clk):
-        BusDriver.__init__(self, dut, name, clk)
+        BusDriver.__init__(self, dut, name, clk, address)
         self.bus.en.value=0
         self.clk=clk
+        self.bus.address.value=address
         
-    async def _driver_send(self,value,sync=True,address):
+    async def _driver_send(self,value,sync=True):
         if self.bus.rdy.value!=1:
             await RisingEdge(self.bus.rdy)
         self.bus.en.value=1
-        self.bus.address.value=address
         self.bus.data.value=value
         await Timer(1,'ns')
         self.bus.en.value=0
+        self.bus.address.value=0
         await Timer(1,'ns')
         
 class ReadDriver(BusDriver):
