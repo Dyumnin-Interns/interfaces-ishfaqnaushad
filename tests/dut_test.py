@@ -2,10 +2,10 @@ import cocotb
 from cocotb.triggers import Timer, RisingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 
+global i=0
 def sb_fn(actual_value):
     global expected_value
     actual=actual_value.integer
-    i=0
     assert actual_value==expected_value[i], f"TEST FAILED, expected={expected_value[i]},actual={actual}"
     i++
 
