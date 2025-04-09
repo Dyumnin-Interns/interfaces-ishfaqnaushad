@@ -27,8 +27,11 @@ async def dut_test(dut):
         adrv=WriteDriver(dut,'write',dut.CLK,4)
         adrv.append(a[i])
         await Timer(10,'ns')
+    for i in range(4):
         bdrv=WriteDriver(dut,'write',dut.CLK,5)
         adrv.append(b[i])
+        await Timer(10,'ns')
+    for i in range(4):
         ReadDriver(dut,'read',dut.CLK,sb_fn,3)
         await Timer(10,'ns')
         
