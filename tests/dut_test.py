@@ -31,6 +31,7 @@ async def dut_test(dut):
         adrv.append(b[i])
         await Timer(6,'ns') 
         ReadDriver(dut,'read',dut.CLK,sb_fn,3)
+        await Timer(6,'ns')
         
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
