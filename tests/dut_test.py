@@ -23,15 +23,13 @@ async def dut_test(dut):
     await RisingEdge(dut.CLK)
     dut.RST_N.value=1
     await Timer(1,'ns')
-
+    adrv=WriteDriver(dut,'write',dut.CLK,4)
     for i in range(4):
-        adrv=WriteDriver(dut,'write',dut.CLK, 4)
-        adrv.append(a[i])
-        bdrv=WriteDriver(dut,'write',dut.CLK, 5)
-        bdrv.append(b[i])
-        ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
-        while len(expected_value)>0:
-            await Timer(2,'ns')
+        await adrv.append(a[i])
+    bdrv=WriteDriver(dut,'write',dut.CLK,5)
+    for i in range(4):
+        await bdrv.append(b[i])
+    ReadDriver(dut,'read',dut.CLK,sb_fn,3)
         
         
 class WriteDriver(BusDriver):
