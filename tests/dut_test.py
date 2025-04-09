@@ -56,6 +56,7 @@ class ReadDriver(BusDriver):
         self.clk=clk
         self.callback=sb_callback
         self.bus.address.value=address
+        self.append(0)
     
     async def _driver_send(self,value,sync=True):
         while True:
