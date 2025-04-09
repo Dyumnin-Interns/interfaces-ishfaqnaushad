@@ -21,6 +21,8 @@ async def dut_test(dut):
     dut.RST_N.value=1
     adrv=WriteDriver(dut,'write',dut.CLK, 4)
     bdrv=WriteDriver(dut,'write',dut.CLK, 5)
+    await ReadOnly()
+    await NextTimeStep()
     ReadDriver(dut,'read',dut.CLK,sb_fn, 3)
 
     for i in range(4):
