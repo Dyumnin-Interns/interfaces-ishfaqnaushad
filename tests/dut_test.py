@@ -35,7 +35,7 @@ async def dut_test(dut):
         dut.write_en.value=0
         dut.read_address.value=2
         if dut.read_data.value!=1:
-            await RisingEdge(dut.read_data.value)
+            await RisingEdge(dut.read_data)
         dut.read_en.value=1
         dut.read_address.value=3
         await ReadOnly()
