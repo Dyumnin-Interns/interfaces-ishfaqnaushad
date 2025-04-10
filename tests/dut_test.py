@@ -28,7 +28,8 @@ async def dut_test(dut):
     await Timer(6,'ns')
     bdrv=WriteDriver(dut,'write',dut.CLK, 5)
     bdrv.append(b[0])
-    await Timer(100,'ns')
+    await Timer(6,'ns')
+    ReadDriver(dut,'read',dut.CLK,sb_fn,3)
         
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
@@ -63,12 +64,12 @@ class ReadDriver(BusDriver):
             if self.bus.rdy.value!=1:
                 await RisingEdge(self.bus.rdy)
             self.bus.en.value=1
+            await ReadOnly()
+            self.callback(self.bus.data.value)
             await RisingEdge(self.clk)
             await NextTimeStep()
             self.bus.en.value=0
-            await ReadOnly()
-            self.callback(self.bus.data.value)
-            await NextTimeStep()
+ 
 
             
             
