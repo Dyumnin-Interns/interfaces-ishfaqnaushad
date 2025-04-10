@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import Timer, RisingEdge, ReadOnly, NextTimeStep
+from cocotb.triggers import Timer, RisingEdge, FallingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 
 j=0
