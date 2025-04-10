@@ -69,7 +69,6 @@ class ReadDriver(BusDriver):
             self.bus.en.value=1
             await ReadOnly()
             self.callback(self.bus.data.value)
-            await Timer(3,'ns')
             await NextTimeStep()
             self.bus.en.value=0 
 
