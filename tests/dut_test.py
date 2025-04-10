@@ -34,6 +34,7 @@ async def dut_test(dut):
         if dut.read_data.value!=1:
             await RisingEdge(dut.read_data)
         ReadDriver(dut,'read',dut.CLK,sb_fn,3)
+        await Timer(6,'ns')
         
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
