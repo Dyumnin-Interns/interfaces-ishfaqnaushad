@@ -32,7 +32,10 @@ async def dut_test(dut):
         dut.write_data.value=b[i]
         await Timer(1,'ns')
         await RisingEdge(dut.CLK)
-        dut.write_en.value=0
+         dut.write_en.value=0
+        dut.read_address.value=2
+        if dut.read_data.value!=1:
+            await RisingEdge(dut.read_data.value)
         dut.read_en.value=1
         dut.read_address.value=3
         await ReadOnly()
