@@ -37,7 +37,7 @@ async def dut_test(dut):
         dut.read_address.value=3
         await ReadOnly()
         assert dut.read_data.value==expected_value[i], f"Test Failed,A={a[i]},B={b[i]},actual={dut.read_data.value.integer},expected={expected_value[i]}"
-        
+        await NextTimeStep()
         
 
         
