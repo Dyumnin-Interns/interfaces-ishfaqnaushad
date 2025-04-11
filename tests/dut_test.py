@@ -53,7 +53,7 @@ class WriteDriver(BusDriver):
         
 class ReadDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
-    def __init__(self, dut, name, clk, sb_callback:
+    def __init__(self, dut, name, clk, sb_callback):
         BusDriver.__init__(self, dut, name, clk)
         self.bus.en.value=0
         self.clk=clk
