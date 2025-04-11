@@ -65,7 +65,7 @@ class ReadDriver(BusDriver):
             if self.bus.rdy.value!=1:
                 await RisingEdge(self.bus.rdy)
             self.bus.address.value=2
-            if dut.read_data.value!=1:
+            if self.bus.data.value!=1:
                 await RisingEdge(self.bus.data)
             self.bus.en.value=1
             self.bus.address.value=3
