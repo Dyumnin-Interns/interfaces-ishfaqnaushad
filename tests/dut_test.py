@@ -28,7 +28,7 @@ async def dut_test(dut):
         bdrv=WriteDriver(dut,'write',dut.CLK,5)
         bdrv.append(b[i])
         await Timer(6,'ns')
-        ReadDriver(dut,'read',dut.CLK,sb_fn,)
+        ReadDriver(dut,'read',dut.CLK,sb_fn)
         await Timer(6,'ns')
         
 class WriteDriver(BusDriver):
