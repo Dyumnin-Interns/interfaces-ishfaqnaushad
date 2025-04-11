@@ -69,6 +69,7 @@ class ReadDriver(BusDriver):
             self.bus.address.value=2
             if self.bus.data.value!=1:
                 await RisingEdge(self.bus.data)
+            await Timer(6,'ns')
             self.bus.en.value=1
             self.bus.address.value=3
             await ReadOnly()
