@@ -63,20 +63,19 @@ class ReadDriver(BusDriver):
         self.append(0)
     
     async def _driver_send(self,value,sync=True):
-        while True:
-            if self.bus.rdy.value!=1:
-                await RisingEdge(self.bus.rdy)
-            self.bus.address.value=2
-            if self.bus.data.value!=1:
-                await RisingEdge(self.bus.data)
-            await Timer(6,'ns')
-            self.bus.en.value=1
-            self.bus.address.value=3
-            await ReadOnly()
-            self.callback(self.bus.data.value)
-            await RisingEdge(self.clk)
-            await NextTimeStep()
-            self.bus.en.value=0 
+        if self.bus.rdy.value!=1:
+            await RisingEdge(self.bus.rdy)
+        self.bus.address.value=2
+        if self.bus.data.value!=1:
+            await RisingEdge(self.bus.data)
+        await Timer(6,'ns')
+        self.bus.en.value=1
+        self.bus.address.value=3
+        await ReadOnly()
+        self.callback(self.bus.data.value)
+        await RisingEdge(self.clk)
+        await NextTimeStep()
+        self.bus.en.value=0 
 
         
 
