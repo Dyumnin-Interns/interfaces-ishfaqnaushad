@@ -25,6 +25,10 @@ async def dut_test(dut):
         adrv=WriteDriver(dut,'write',dut.CLK,4)
         adrv.append(a[i])
         await Timer(6,'ns')
+        dut.read_address.value=0
+        if dut.read_data.value!=1:
+            await RisingEdge(dut.read_data)
+        await Timer(6,'ns')
         bdrv=WriteDriver(dut,'write',dut.CLK,5)
         bdrv.append(b[i])
         await Timer(6,'ns')
