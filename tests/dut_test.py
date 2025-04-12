@@ -53,7 +53,7 @@ async def dut_test(dut):
     await Timer(1,'ns')
     for i in range(4):
         adrv=WriteDriver(dut,'write',dut.CLK,4)
-        IO_Monitor(dut,'a',dut.CLK,callback=a_prot_cover)
+        IO_Monitor(dut,'write',dut.CLK,callback=a_prot_cover)
         adrv.append(a[i])
         await Timer(6,'ns')
         dut.read_address.value=0
@@ -119,7 +119,7 @@ class ReadDriver(BusDriver):
         self.bus.en.value=0 
 
 class IO_Monitor(BusMonitor):
-    _signals=['address','rdy','en','data']
+    _signals=['address', 'rdy', 'en', 'data']
 
     async def _monitor_recv(self):
         fallingedge=FallingEdge(self.clock)
