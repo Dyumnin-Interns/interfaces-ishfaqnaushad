@@ -2,6 +2,7 @@ import cocotb
 from cocotb.triggers import Timer, RisingEdge, FallingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
 from cocotb_coverage.coverage import CoverCross, CoverPoint, coverage_db 
+from cocotb_bus.monitors import BusMonitor
 import os
 
 
@@ -22,7 +23,20 @@ def sb_fn(actual_value):
            )
 def ab_cover(a, b):
     pass
-
+    
+@CoverPoint("top.prot.a.current", #noqa F405
+           xf=lambda x: x['current'],
+           bins=['Idle','RDY','Txn'])
+@CoverPoint("top.prot.a.previous", #noqa F405
+           xf=lambda x: x['previous'],
+           bins=['Idle','RDY','Txn'])
+@CoverCross("top.cross.a_prot.cross",
+            items=["top.prot.a.current",
+                   "top.prot.a.previous"]
+           )
+def a_prot_cover(txn):
+    pass
+    
 
 @cocotb.test()
 async def dut_test(dut):
@@ -39,6 +53,7 @@ async def dut_test(dut):
     await Timer(1,'ns')
     for i in range(4):
         adrv=WriteDriver(dut,'write',dut.CLK,4)
+        IO_Monitor(dut,'a',dut.CLK,callback=a_prot_cover)
         adrv.append(a[i])
         await Timer(6,'ns')
         dut.read_address.value=0
@@ -102,6 +117,26 @@ class ReadDriver(BusDriver):
         await RisingEdge(self.clk)
         await NextTimeStep()
         self.bus.en.value=0 
+
+class IO_Monitor(BusMonitor):
+    _signals=['address','rdy','en','data']
+
+    async def _monitor_recv(self):
+        fallingedge=FallingEdge(self.clock)
+        rdonly=ReadOnly()
+        phases=[
+            0:'Idle',
+            1:'RDY',
+            3:'Txn'
+        ]
+         prev='Idle'   
+        while True:
+            await fallingedge
+            await rdonly
+            txn=(self.bus.rdy.value<<1)|self.bus.en.value
+            self._recv('previous':prev,'current':phases[txn])
+            prev=phases[txn]
+        
 
         
 
