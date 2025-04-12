@@ -129,7 +129,7 @@ class IO_Monitor(BusMonitor):
             1:'RDY',
             3:'Txn'
         }
-         prev='Idle'   
+        prev='Idle'   
         while True:
             await fallingedge
             await rdonly
