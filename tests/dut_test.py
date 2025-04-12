@@ -57,7 +57,7 @@ async def dut_test(dut):
         await Timer(6,'ns')
 
     coverage_db.report_coverage(cocotb.log.info, bins=True)
-    coverage_file=os.path.join( os.getenv('RESULT_PATH', "./"), coverage.xml)
+    coverage_file=os.path.join( os.getenv('RESULT_PATH', "./"), 'coverage.xml')
     coverage_db.export_to_xml(filename=coverage_file)
         
 class WriteDriver(BusDriver):
