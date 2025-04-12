@@ -124,11 +124,11 @@ class IO_Monitor(BusMonitor):
     async def _monitor_recv(self):
         fallingedge=FallingEdge(self.clock)
         rdonly=ReadOnly()
-        phases=[
+        phases={
             0:'Idle',
             1:'RDY',
             3:'Txn'
-        ]
+        }
          prev='Idle'   
         while True:
             await fallingedge
