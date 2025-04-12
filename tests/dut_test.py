@@ -1,7 +1,8 @@
 import cocotb
 from cocotb.triggers import Timer, RisingEdge, FallingEdge, ReadOnly, NextTimeStep
 from cocotb_bus.drivers import BusDriver
-from cocotb_coverage.coverage import CoverCross, CoverPoint, coverage_db
+from cocotb_coverage.coverage import CoverCross, CoverPoint, coverage_db 
+import os
 
 
 def sb_fn(actual_value):
