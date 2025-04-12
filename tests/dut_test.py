@@ -11,10 +11,10 @@ def sb_fn(actual_value):
     assert actual_value==expected_value.pop(0), f"TEST FAILED, expected[{0}]={expected_value[0]},actual={actual}"
 
 @CoverPoint("top.a", #noqa F405
-           xf lambda x, y: x,
+           xf=lambda x, y: x,
            bins=[0,1])
 @CoverPoint("top.b", #noqa F405
-           xf lambda x, y: y,
+           xf=lambda x, y: y,
            bins=[0,1])
 @CoverCross("top.cross.ab",
             items=["top.a",
