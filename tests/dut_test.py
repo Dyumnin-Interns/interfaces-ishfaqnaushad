@@ -9,6 +9,20 @@ def sb_fn(actual_value):
     actual=actual_value.integer
     assert actual_value==expected_value.pop(0), f"TEST FAILED, expected[{0}]={expected_value[0]},actual={actual}"
 
+@CoverPoint("top.a", #noqa F405
+           xf lambda x, y: x,
+           bins=[0,1])
+@CoverPoint("top.b", #noqa F405
+           xf lambda x, y: y,
+           bins=[0,1])
+@CoverCross("top.cross.ab",
+            items=["top.a",
+                   "top.b"]
+           )
+def ab_cover(a, b):
+    pass
+
+
 @cocotb.test()
 async def dut_test(dut):
     global expected_value
@@ -33,12 +47,17 @@ async def dut_test(dut):
         bdrv=WriteDriver(dut,'write',dut.CLK,5)
         bdrv.append(b[i])
         await Timer(6,'ns')
+        ab_cover(a[i], b[i])
         dut.read_address.value=1
         if dut.read_data.value!=1:
             await RisingEdge(dut.read_data)
         await Timer(6,'ns')
         ReadDriver(dut,'read',dut.CLK,sb_fn)
         await Timer(6,'ns')
+
+    coverage_db.report_coverage(cocotb.log.info, bins=True)
+    coverage_file=os.path.join( os.getenv('RESULT_PATH', "./"), coverage.xml)
+    coverage_db.export_to_xml(filename=coverage_file)
         
 class WriteDriver(BusDriver):
     _signals=['address', 'rdy', 'en', 'data']
